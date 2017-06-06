@@ -1,0 +1,20 @@
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.billthefarmer'
+
+android {
+    compileSdkVersion 'android-22'
+    buildToolsVersion '24.0.2'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 22
+    }
+
+    lintOptions {
+        disable 'OldTargetApi', 'IconMissingDensityFolder', 'IconDensities'
+	// abortOnError false
+    }
+}
