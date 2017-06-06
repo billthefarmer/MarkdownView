@@ -220,7 +220,8 @@ public class MarkdownView extends WebView
                 else
                 {
                     throw
-                        new IllegalArgumentException("The URL string provided is not a network or asset URL.");
+                        new IllegalArgumentException
+                        ("The URL provided is not a network or asset URL");
                 }
 
                 return markdown;
@@ -228,7 +229,7 @@ public class MarkdownView extends WebView
 
             catch (Exception e)
             {
-                Log.d(TAG, "Error Loading Markdown File.", e);
+                Log.d(TAG, "Error Loading Markdown File", e);
                 return null;
             }
         }

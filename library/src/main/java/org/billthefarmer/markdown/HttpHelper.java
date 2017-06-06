@@ -147,8 +147,8 @@ public class HttpHelper
     }
 
     /*
-     * Close the connection, if the connection could not be closed (probably
-     * because its already closed) ignore the error.
+     * Close the connection, if the connection could not be closed
+     * (probably because its already closed) ignore the error.
      */
     private static void closeSilently(OutputStream output)
     {
@@ -227,8 +227,8 @@ public class HttpHelper
 
         public String toString()
         {
-            return "httpResponseCode = " + httpResponseCode + " , "
-                + "httpResponseMessage = " + httpResponseMessage + " , "
+            return "httpResponseCode = " + httpResponseCode + ", "
+                + "httpResponseMessage = " + httpResponseMessage + ", "
                 + "serverResponseMessage = " + serverResponseMessage;
         }
     }
