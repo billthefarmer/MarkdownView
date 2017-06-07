@@ -56,6 +56,12 @@ your onCreate method:
   markdownView.loadMarkdown("## Hello Markdown");
 ```
 
+To load markdown from the app assets folder, including styles and base url:
+```java
+  markdownView.loadMarkdownFile("file:///android_assets/",
+                                "file:///android_assets/markdown.md",
+                                "file:///android_assets/styles.css");
+```
 ## API
 ```java
   MarkdownView(Context context)
