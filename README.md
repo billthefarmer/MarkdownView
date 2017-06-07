@@ -56,7 +56,7 @@ your onCreate method:
   markdownView.loadMarkdown("## Hello Markdown");
 ```
 
-##API
+## API
 ```java
   MarkdownView(Context context)
   MarkdownView(Context context, AttributeSet attrs)
