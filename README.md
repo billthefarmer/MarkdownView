@@ -18,7 +18,7 @@ on the view.
 
 To add MarkdownView to your project, add the following to the
 `build.gradle` file:
-```groovy
+```gradle
 allprojects {
   repositories {
     maven {
