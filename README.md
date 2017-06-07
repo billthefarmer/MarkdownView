@@ -60,12 +60,25 @@ your onCreate method:
 ```java
   MarkdownView(Context context)
   MarkdownView(Context context, AttributeSet attrs)
-
+```
+### Parameters
+* context - Context
+* attrs - AttributeSet
+```
   void loadMarkdown(String text)
   void loadMarkdown(String text, String cssFileUrl)
   void loadMarkdown(String baseUrl, String text, String cssFileUrl)
-
+```
+### Parameters
+* text - markdown text
+* cssFileUrl - url of styles css file
+* baseUrl - base url to allow loading of images
+```
   void loadMarkdownFile(String url)
   void loadMarkdownFile(String url, String cssFileUrl)
   void loadMarkdownFile(String baseUrl, String url, String cssFileUrl)
 ```
+### Parameters
+* url - url of markdown text
+* cssFileUrl - url of styles css file
+* baseUrl - base url to allow loading of images
