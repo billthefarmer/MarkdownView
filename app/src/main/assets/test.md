@@ -47,7 +47,7 @@ laborum.
 [MarkdownView](https://github.com/billthefarmer/MarkdownView)
 
 ## Image
-![markdown](markdown.png)
+![cat](cat.jpg)
 
 ## Code
     proc wobble()

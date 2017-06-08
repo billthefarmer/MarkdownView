@@ -6,7 +6,6 @@ android {
     buildToolsVersion '24.0.2'
 
     lintOptions {
-        disable 'OldTargetApi'
 	// abortOnError false
     }
 }
