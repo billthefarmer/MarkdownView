@@ -40,6 +40,7 @@ public class MarkdownView extends WebView
 {
     private static final String TAG = "MarkdownView";
 
+    private static final String ASSET = "file:///android_asset/";
     private static final String CSS =
         "<link rel='stylesheet' type='text/css' href='%s' />\n%s";
 
@@ -203,6 +204,7 @@ public class MarkdownView extends WebView
                 baseUrl = params[0];
                 String url = params[1];
                 cssFileUrl = params[2];
+
                 if(URLUtil.isNetworkUrl(url))
                 {
                     markdown = HttpHelper.get(url).getResponseMessage();
@@ -211,10 +213,8 @@ public class MarkdownView extends WebView
                 else if (URLUtil.isAssetUrl(url))
                 {
                     markdown =
-                        readFileFromAsset(url
-                                          .substring("file:///android_asset/"
-                                                     .length(),
-                                                     url.length()));
+                        readFileFromAsset(url.substring(ASSET.length(),
+                                                        url.length()));
                 }
 
                 else
