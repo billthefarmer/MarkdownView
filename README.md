@@ -29,7 +29,7 @@ allprojects {
 
 dependencies {
     compile 'com.github.billthefarmer:MarkdownView:v1.0'
-  }
+}
 ```
 
 ## Usage
@@ -67,7 +67,7 @@ To load markdown from the app assets folder, including styles and base url:
   MarkdownView(Context context)
   MarkdownView(Context context, AttributeSet attrs)
 ```
-### Parameters
+**Parameters**
 * context - Context
 * attrs - AttributeSet
 ```
@@ -75,7 +75,7 @@ To load markdown from the app assets folder, including styles and base url:
   void loadMarkdown(String text, String cssFileUrl)
   void loadMarkdown(String baseUrl, String text, String cssFileUrl)
 ```
-### Parameters
+**Parameters**
 * text - markdown text
 * cssFileUrl - url of styles css file
 * baseUrl - base url to allow loading of images
@@ -84,7 +84,7 @@ To load markdown from the app assets folder, including styles and base url:
   void loadMarkdownFile(String url, String cssFileUrl)
   void loadMarkdownFile(String baseUrl, String url, String cssFileUrl)
 ```
-### Parameters
+**Parameters**
 * url - url of markdown text
 * cssFileUrl - url of styles css file
 * baseUrl - base url to allow loading of images
