@@ -18,8 +18,12 @@ package org.billthefarmer.mark;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.webkit.WebSettings;
+import android.widget.EditText;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,11 +34,13 @@ public class Main extends Activity
 {
     public final static String TAG = "Main";
 
+    public final static String FILE = "test.md";
     public final static String BASE = "file:///android_asset/";
     public final static String TEST = "file:///android_asset/test.md";
     public final static String STYLES = "file:///android_asset/styles.css";
 
     private MarkdownView markdownView;
+    private EditText textView;
 
     // onCreate
     @Override
@@ -45,6 +51,7 @@ public class Main extends Activity
 
         // Initialize MarkdownView from layout
         markdownView = (MarkdownView) findViewById(R.id.markdown);
+        textView = (EditText) findViewById(R.id.text);
 
         if (markdownView != null)
         {
@@ -53,6 +60,71 @@ public class Main extends Activity
             WebSettings settings = markdownView.getSettings();
             settings.setBuiltInZoomControls(true);
             settings.setDisplayZoomControls(false);
+        }
+
+        if (textView != null)
+        {
+            String text = readAssetFile(FILE);
+            textView.setText(text);
+            textView.addTextChangedListener(new TextWatcher()
+                {
+                    // afterTextChanged
+                    @Override
+                    public void afterTextChanged (Editable s) {}
+
+                    // beforeTextChanged
+                    @Override
+                    public void beforeTextChanged (CharSequence s,
+                                                   int start,
+                                                   int count,
+                                                   int after) {}
+                    // onTextChanged
+                    @Override
+                    public void onTextChanged (CharSequence s,
+                                               int start,
+                                               int before,
+                                               int count)
+                    {
+                        String text = textView.getText().toString();
+                        markdownView.loadMarkdown(BASE, text, STYLES);
+                    }
+                });
+        }
+    }
+
+    // readAssetFile
+    private String readAssetFile(String file)
+    {
+        try
+        {
+            // Open asset file
+            InputStream input = getResources().getAssets().open(file);
+            try
+            {
+                BufferedReader bufferedReader =
+                    new BufferedReader(new InputStreamReader(input));
+                StringBuilder content =
+                    new StringBuilder(input.available());
+                String line;
+                while ((line = bufferedReader.readLine()) != null)
+                {
+                    content.append(line);
+                    content.append(System.getProperty("line.separator"));
+                }
+
+                return content.toString();
+            }
+
+            finally
+            {
+                input.close();
+            }
+        }
+
+        catch (Exception e)
+        {
+            Log.d(TAG, "Error while reading file from assets", e);
+            return null;
         }
     }
 }
