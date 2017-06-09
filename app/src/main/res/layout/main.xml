@@ -6,7 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
-  
+
+  <org.billthefarmer.markdown.MarkdownView
+    android:id="@+id/markdown"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1" />
+
   <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -42,11 +48,5 @@
         android:elevation="6dp" />
 
   </RelativeLayout>
-
-  <org.billthefarmer.markdown.MarkdownView
-    android:id="@+id/markdown"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1" />
 
 </LinearLayout>
