@@ -18,10 +18,10 @@ package org.billthefarmer.mark;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebSettings;
+import android.widget.ImageButton;
 import android.widget.EditText;
 
 import java.io.BufferedReader;
@@ -41,6 +41,7 @@ public class Main extends Activity
 
     private MarkdownView markdownView;
     private EditText textView;
+    private ImageButton accept;
 
     // onCreate
     @Override
@@ -52,6 +53,7 @@ public class Main extends Activity
         // Initialize MarkdownView from layout
         markdownView = (MarkdownView) findViewById(R.id.markdown);
         textView = (EditText) findViewById(R.id.text);
+        accept = (ImageButton) findViewById(R.id.accept);
 
         if (markdownView != null)
         {
@@ -66,24 +68,15 @@ public class Main extends Activity
         {
             String text = readAssetFile(FILE);
             textView.setText(text);
-            textView.addTextChangedListener(new TextWatcher()
-                {
-                    // afterTextChanged
-                    @Override
-                    public void afterTextChanged (Editable s) {}
+        }
 
-                    // beforeTextChanged
+        if (accept != null)
+        {
+            accept.setOnClickListener(new View.OnClickListener()
+                {
+                    // onClick
                     @Override
-                    public void beforeTextChanged (CharSequence s,
-                                                   int start,
-                                                   int count,
-                                                   int after) {}
-                    // onTextChanged
-                    @Override
-                    public void onTextChanged (CharSequence s,
-                                               int start,
-                                               int before,
-                                               int count)
+                    public void onClick(View view)
                     {
                         String text = textView.getText().toString();
                         markdownView.loadMarkdown(BASE, text, STYLES);
