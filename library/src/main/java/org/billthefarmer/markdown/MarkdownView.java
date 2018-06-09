@@ -43,6 +43,8 @@ public class MarkdownView extends WebView
     private static final String ASSET = "file:///android_asset/";
     private static final String CSS =
         "<link rel='stylesheet' type='text/css' href='%s' />\n%s";
+    private static final String JS =
+        "<script type='text/javascript' src='%s'></script>\n%s";
 
     // MarkdownView
     public MarkdownView(Context context, AttributeSet attrs)
@@ -54,6 +56,30 @@ public class MarkdownView extends WebView
     public MarkdownView(Context context)
     {
         super(context);
+    }
+
+    /**
+     * Loads the given Markdown text to the view as rich formatted
+     * HTML. The HTML output will be styled based on the given CSS
+     * file. The given JS file will be included.
+     *
+     * @param baseUrl
+     *            - the URL to use as the page's base URL
+     * @param text
+     *            - input in markdown format
+     * @param cssFileUrl
+     *            - a URL to css file. If the file is located in the
+     *              project assets folder then the URL should start
+     *              with "file:///android_asset/"
+     * @param jsFileUrl
+     *            - a URL to js file. If the file is located in the
+     *              project assets folder then the URL should start
+     *              with "file:///android_asset/"
+     */
+    public void loadMarkdown(String baseUrl, String text,
+                             String cssFileUrl, String jsFileUrl)
+    {
+        loadMarkdownToView(baseUrl, text, cssFileUrl, jsFileUrl);
     }
 
     /**
@@ -71,7 +97,7 @@ public class MarkdownView extends WebView
      */
     public void loadMarkdown(String baseUrl, String text, String cssFileUrl)
     {
-        loadMarkdownToView(baseUrl, text, cssFileUrl);
+        loadMarkdown(baseUrl, text, cssFileUrl, null);
     }
 
     /**
@@ -109,16 +135,43 @@ public class MarkdownView extends WebView
      * @param baseUrl
      *            - the URL to use as the page's base URL
      * @param url
+     *            - a URL to the markdown file. If the file is located
+     *              in the project assets folder then the URL should
+     *              start with "file:///android_asset/"
+     * @param cssFileUrl
+     *            - a URL to css file. If the file is located in the
+     *              project assets folder then the URL should start
+     *              with "file:///android_asset/"
+     * @param jsFileUrl
+     *            - a URL to js file. If the file is located in the
+     *              project assets folder then the URL should start
+     *              with "file:///android_asset/"
+     */
+    public void loadMarkdownFile(String baseUrl, String url,
+                                 String cssFileUrl, String jsFileUrl)
+    {
+        new LoadMarkdownUrlTask().execute(baseUrl, url, cssFileUrl, jsFileUrl);
+    }
+
+    /**
+     * Loads the given Markdown file to the view as rich formatted
+     * HTML. The HTML output will be styled based on the given CSS
+     * file.
+     *
+     * @param baseUrl
+     *            - the URL to use as the page's base URL
+     * @param url
      *            - a URL to the Markdown file. If the file located in the
-     *            project assets folder then the URL should start with
-     *            "file:///android_asset/"
+     *              project assets folder then the URL should start with
+     *              "file:///android_asset/"
      * @param cssFileUrl
      *            - a URL to css File. If the file located in the project assets
-     *            folder then the URL should start with "file:///android_asset/"
+     *              folder then the URL should start with
+     *              "file:///android_asset/"
      */
     public void loadMarkdownFile(String baseUrl, String url, String cssFileUrl)
     {
-        new LoadMarkdownUrlTask().execute(baseUrl, url, cssFileUrl);
+        loadMarkdownFile(baseUrl, url, cssFileUrl, null);
     }
 
     /**
@@ -128,11 +181,12 @@ public class MarkdownView extends WebView
      *
      * @param url
      *            - a URL to the Markdown file. If the file located in the
-     *            project assets folder then the URL should start with
-     *            "file:///android_asset/"
+     *              project assets folder then the URL should start with
+     *              "file:///android_asset/"
      * @param cssFileUrl
      *            - a URL to css File. If the file located in the project assets
-     *            folder then the URL should start with "file:///android_asset/"
+     *              folder then the URL should start with
+     *              "file:///android_asset/"
      */
     public void loadMarkdownFile(String url, String cssFileUrl)
     {
@@ -141,13 +195,12 @@ public class MarkdownView extends WebView
 
     /**
      * Loads the given Markdown file to the view as rich formatted
-     * HTML. The HTML output will be styled based on the given CSS
-     * file.
+     * HTML.
      *
      * @param url
      *            - a URL to the Markdown file. If the file located in the
-     *            project assets folder then the URL should start with
-     *            "file:///android_asset/"
+     *              project assets folder then the URL should start with
+     *              "file:///android_asset/"
      */
     public void loadMarkdownFile(String url)
     {
@@ -193,6 +246,7 @@ public class MarkdownView extends WebView
     {
         private String baseUrl;
         private String cssFileUrl;
+        private String jsFileUrl;
 
         // doInBackground
         @Override
@@ -204,6 +258,7 @@ public class MarkdownView extends WebView
                 baseUrl = params[0];
                 String url = params[1];
                 cssFileUrl = params[2];
+                jsFileUrl = params[3];
 
                 if(URLUtil.isNetworkUrl(url))
                 {
@@ -219,8 +274,7 @@ public class MarkdownView extends WebView
 
                 else
                 {
-                    throw
-                        new IllegalArgumentException
+                    throw new IllegalArgumentException
                         ("The URL provided is not a network or asset URL");
                 }
 
@@ -247,7 +301,7 @@ public class MarkdownView extends WebView
         {
             if (result != null)
             {
-                loadMarkdownToView(baseUrl, result, cssFileUrl);
+                loadMarkdownToView(baseUrl, result, cssFileUrl, jsFileUrl);
             }
 
             else
@@ -259,14 +313,18 @@ public class MarkdownView extends WebView
 
     // loadMarkdownToView
     private void loadMarkdownToView(String baseUrl, String text,
-                                    String cssFileUrl)
+                                    String cssFileUrl, String jsFileUrl)
     {
         MarkdownProcessor mark = new MarkdownProcessor();
         String html = mark.markdown(text);
+
+        // Add javascript
+        if (jsFileUrl != null)
+            html = String.format(Locale.getDefault(), JS, jsFileUrl, html);
+
+        // Add styles
         if (cssFileUrl != null)
-        {
             html = String.format(Locale.getDefault(), CSS, cssFileUrl, html);
-        }
 
         loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", null);
     }
