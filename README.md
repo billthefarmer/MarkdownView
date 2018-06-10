@@ -28,7 +28,7 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.github.billthefarmer:MarkdownView:v1.0'
+    compile 'com.github.billthefarmer:MarkdownView:v1.01
 }
 ```
 
