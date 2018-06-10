@@ -235,7 +235,7 @@ public class MarkdownView extends WebView
 
         catch (Exception e)
         {
-            Log.d(TAG, "Error while reading file from assets", e);
+            Log.e(TAG, "Error while reading file from assets", e);
             return null;
         }
     }
@@ -283,7 +283,7 @@ public class MarkdownView extends WebView
 
             catch (Exception e)
             {
-                Log.d(TAG, "Error Loading Markdown File", e);
+                Log.e(TAG, "Error Loading Markdown File", e);
                 return null;
             }
         }
