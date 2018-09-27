@@ -1,4 +1,4 @@
-# ![Logo](app/src/main/res/drawable-mdpi/ic_launcher.png) MarkdownView [![Build Status](https://travis-ci.org/billthefarmer/MarkdownView.svg?branch=master)](https://travis-ci.org/billthefarmer/MarkdownView) [![](https://jitpack.io/v/billthefarmer/MarkdownView.svg)](https://jitpack.io/#billthefarmer/MarkdownView)
+# ![Logo](app/src/main/res/drawable-hdpi/ic_launcher.png) MarkdownView [![Build Status](https://travis-ci.org/billthefarmer/MarkdownView.svg?branch=master)](https://travis-ci.org/billthefarmer/MarkdownView) [![](https://jitpack.io/v/billthefarmer/MarkdownView.svg)](https://jitpack.io/#billthefarmer/MarkdownView)
 
 Android markdown view forked from https://github.com/falnatsheh/MarkdownView
 
@@ -10,7 +10,7 @@ MarkdownView is an Android library that helps you display Markdown
 text or files (local/remote) as formatted HTML, and style the output
 using CSS.
 
-The MarkdownView itself extends Android Webview and adds the necessary
+The MarkdownView itself extends Android WebView and adds the necessary
 logic to parse Markdown (using MarkdownJ) and display the output HTML
 on the view.
 
@@ -20,15 +20,15 @@ To add MarkdownView to your project, add the following to the
 `build.gradle` file:
 ```gradle
 allprojects {
-  repositories {
-    maven {
-      url "https://jitpack.io"
+    repositories {
+        jcenter()
+        google()
+        maven { url "https://jitpack.io" }
     }
-  }
 }
 
 dependencies {
-    compile 'com.github.billthefarmer:MarkdownView:v1.01
+    implementation 'com.github.billthefarmer:MarkdownView:v1.01'
 }
 ```
 
