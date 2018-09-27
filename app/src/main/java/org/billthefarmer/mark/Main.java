@@ -19,19 +19,17 @@ package org.billthefarmer.mark;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.webkit.WebSettings;
-import android.widget.ImageButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+
+import org.billthefarmer.markdown.MarkdownView;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.billthefarmer.markdown.MarkdownView;
-
-public class Main extends Activity
-{
+public class Main extends Activity {
     public final static String TAG = "Main";
 
     public final static String FILE = "test.md";
@@ -41,22 +39,19 @@ public class Main extends Activity
 
     private MarkdownView markdownView;
     private EditText textView;
-    private ImageButton accept;
 
     // onCreate
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         // Initialize MarkdownView from layout
-        markdownView = (MarkdownView) findViewById(R.id.markdown);
-        textView = (EditText) findViewById(R.id.text);
-        accept = (ImageButton) findViewById(R.id.accept);
+        markdownView = findViewById(R.id.markdown);
+        textView = findViewById(R.id.text);
+        ImageButton accept = findViewById(R.id.accept);
 
-        if (markdownView != null)
-        {
+        if (markdownView != null) {
             markdownView.loadMarkdownFile(BASE, TEST, STYLES);
 
             WebSettings settings = markdownView.getSettings();
@@ -64,58 +59,38 @@ public class Main extends Activity
             settings.setDisplayZoomControls(false);
         }
 
-        if (textView != null)
-        {
-            String text = readAssetFile(FILE);
+        if (textView != null) {
+            String text = readAssetFile();
             textView.setText(text);
         }
 
-        if (accept != null)
-        {
-            accept.setOnClickListener(new View.OnClickListener()
-                {
-                    // onClick
-                    @Override
-                    public void onClick(View view)
-                    {
-                        String text = textView.getText().toString();
-                        markdownView.loadMarkdown(BASE, text, STYLES);
-                    }
-                });
+        if (accept != null) {
+            // onClick
+            accept.setOnClickListener(view -> {
+                String text = textView.getText().toString();
+                markdownView.loadMarkdown(BASE, text, STYLES);
+            });
         }
     }
 
     // readAssetFile
-    private String readAssetFile(String file)
-    {
-        try
-        {
+    private String readAssetFile() {
+        try {
             // Open asset file
-            InputStream input = getResources().getAssets().open(file);
-            try
-            {
+            try (InputStream input = getResources().getAssets().open(Main.FILE)) {
                 BufferedReader bufferedReader =
-                    new BufferedReader(new InputStreamReader(input));
+                        new BufferedReader(new InputStreamReader(input));
                 StringBuilder content =
-                    new StringBuilder(input.available());
+                        new StringBuilder(input.available());
                 String line;
-                while ((line = bufferedReader.readLine()) != null)
-                {
+                while ((line = bufferedReader.readLine()) != null) {
                     content.append(line);
                     content.append(System.getProperty("line.separator"));
                 }
 
                 return content.toString();
             }
-
-            finally
-            {
-                input.close();
-            }
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.d(TAG, "Error while reading file from assets", e);
             return null;
         }
