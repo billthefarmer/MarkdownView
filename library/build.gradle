@@ -1,24 +1,28 @@
-
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.billthefarmer'
+group = 'com.github.billthefarmer'
 
 android {
-    compileSdkVersion 'android-22'
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 28
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
         disable 'OldTargetApi'
-	// abortOnError false
+        // abortOnError false
     }
 }
 
 dependencies {
-    compile 'org.markdownj:markdownj-core:0.4'
+    implementation 'org.markdownj:markdownj-core:0.4'
 }
