@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
-  <org.billthefarmer.markdown.MarkdownView
-    android:id="@+id/markdown"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1" />
-
-  <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    tools:ignore="ContentDescription">
-
-    <ScrollView
-        android:id="@+id/scroll"
+    <org.billthefarmer.markdown.MarkdownView
+        android:id="@+id/markdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_weight="1" />
 
-      <EditText
-          android:id="@+id/text"
-          android:inputType="textMultiLine"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:gravity="top" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:ignore="ContentDescription">
 
-    </ScrollView>
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-    <ImageButton
-        android:id="@+id/accept"
-        tools:ignore="UnusedAttribute"
-        android:src="@drawable/ic_action_accept"
-        android:background="@drawable/ic_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/scroll"
-        android:layout_marginBottom="28dp"
-        android:layout_marginRight="28dp"
-        android:elevation="6dp" />
+            <EditText
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine" />
 
-  </RelativeLayout>
+        </ScrollView>
+
+        <ImageButton
+            android:id="@+id/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/scroll"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="28dp"
+            android:layout_marginBottom="28dp"
+            android:background="@drawable/ic_background"
+            android:elevation="6dp"
+            android:src="@drawable/ic_action_accept"
+            tools:ignore="UnusedAttribute" />
+
+    </RelativeLayout>
 
 </LinearLayout>

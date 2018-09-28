@@ -19,22 +19,19 @@ package org.billthefarmer.markdown;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * @author Feras Alnatsheh
  */
 
 // HttpHelper
-public class HttpHelper
-{
+public class HttpHelper {
     private static final String CHARSET_UTF8 = "UTF-8";
     public static final String CONTENT_TYPE_JSON = "json";
     public static final String CONTENT_TYPE_XML = "xml";
@@ -46,24 +43,20 @@ public class HttpHelper
     private static final int DEFAULT_CONNECT_TIMEOUT = 5000;
 
     static public Response get(String url, String query)
-        throws MalformedURLException, IOException
-    {
+            throws IOException {
         return get(url, query, DEFAULT_CONNECT_TIMEOUT, DEFAULT_READ_TIMEOUT);
     }
 
     static public Response get(String url)
-        throws MalformedURLException, IOException
-    {
+            throws IOException {
         return get(url, null, DEFAULT_CONNECT_TIMEOUT, DEFAULT_READ_TIMEOUT);
     }
 
     static public Response get(String url, String query, int connectTimeout,
                                int readTimeout)
-        throws MalformedURLException, IOException
-    {
+            throws IOException {
         String fullUrl = url;
-        if (query != null && !query.equals(""))
-        {
+        if (query != null && !query.equals("")) {
             fullUrl += "?" + query;
         }
         URLConnection connection = new URL(fullUrl).openConnection();
@@ -74,32 +67,26 @@ public class HttpHelper
     }
 
     static public Response post(String url, String query, String contentType)
-        throws MalformedURLException, IOException
-    {
+            throws IOException {
         return post(url, query, contentType, DEFAULT_CONNECT_TIMEOUT,
-                    DEFAULT_READ_TIMEOUT);
+                DEFAULT_READ_TIMEOUT);
     }
 
     static public Response post(String url, String query, String contentType,
                                 int connectTimeout, int readTimeout)
-        throws MalformedURLException, IOException
-    {
+            throws IOException {
         URLConnection connection = new URL(url).openConnection();
         connection.setReadTimeout(readTimeout);
         connection.setConnectTimeout(connectTimeout);
         connection.setDoOutput(true); // Triggers POST.
         connection.setRequestProperty("Accept-Charset", CHARSET_UTF8);
         connection.setRequestProperty("Content-Type", "application/"
-                                      + contentType);
+                + contentType);
         OutputStream output = null;
-        try
-        {
+        try {
             output = connection.getOutputStream();
             output.write(query.getBytes(CHARSET_UTF8));
-        }
-
-        finally
-        {
+        } finally {
             closeSilently(output);
         }
 
@@ -110,14 +97,13 @@ public class HttpHelper
      * Open the input stream to get responses from the server.
      */
     private static Response getResponse(HttpURLConnection connection)
-        throws IOException
-    {
+            throws IOException {
         InputStream inputStream = connection.getInputStream();
         Response response = new Response();
         response.setHttpResponseCode(connection.getResponseCode());
         response.setHttpResponseHeader(connection.getHeaderFields().entrySet());
         response.setResponseMessage(getResponseMessage(inputStream,
-                                                       connection));
+                connection));
         response.setHttpResponseMessage(connection.getResponseMessage());
         return response;
     }
@@ -127,21 +113,16 @@ public class HttpHelper
      */
     private static String getResponseMessage(InputStream inputStream,
                                              HttpURLConnection connection)
-        throws UnsupportedEncodingException, IOException
-    {
+            throws IOException {
         String responseMessage = null;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         InputStream dis = connection.getInputStream();
         int chr;
-        while ((chr = dis.read()) != -1)
-        {
+        while ((chr = dis.read()) != -1) {
             sb.append((char) chr);
         }
 
-        if (sb != null)
-        {
-            responseMessage = sb.toString();
-        }
+        responseMessage = sb.toString();
 
         return responseMessage;
     }
@@ -150,86 +131,70 @@ public class HttpHelper
      * Close the connection, if the connection could not be closed
      * (probably because its already closed) ignore the error.
      */
-    private static void closeSilently(OutputStream output)
-    {
-        if (output != null)
-        {
-            try
-            {
+    private static void closeSilently(OutputStream output) {
+        if (output != null) {
+            try {
                 output.close();
+            } catch (IOException e) {
             }
-
-            catch (IOException e) {}
         }
     }
 
-    public static class Response
-    {
+    public static class Response {
         private Set<Entry<String, List<String>>> httpResponseHeader;
         private int httpResponseCode;
         private String httpResponseMessage;
         private String serverResponseMessage;
 
-        Response()
-        {
+        Response() {
         }
 
         Response(Set<Entry<String, List<String>>> httpResponseHeader,
                  int httpResponseCode, String httpResponseMessage,
-                 String responseMessage)
-        {
+                 String responseMessage) {
             setHttpResponseHeader(httpResponseHeader);
             setHttpResponseCode(httpResponseCode);
             setHttpResponseMessage(httpResponseMessage);
             setResponseMessage(responseMessage);
         }
 
-        public String getHttpResponseMessage()
-        {
+        public String getHttpResponseMessage() {
             return httpResponseMessage;
         }
 
-        public void setHttpResponseMessage(String httpResponseMessage)
-        {
+        public void setHttpResponseMessage(String httpResponseMessage) {
             this.httpResponseMessage = httpResponseMessage;
         }
 
-        public Set<Entry<String, List<String>>> getHttpResponseHeader()
-        {
+        public Set<Entry<String, List<String>>> getHttpResponseHeader() {
             return httpResponseHeader;
         }
 
         public void setHttpResponseHeader(Set<Entry<String, List<String>>>
-                                          httpResponseHeader)
-        {
+                                                  httpResponseHeader) {
             this.httpResponseHeader = httpResponseHeader;
         }
 
-        public int getHttpResponseCode()
-        {
+        public int getHttpResponseCode() {
             return httpResponseCode;
         }
 
-        public void setHttpResponseCode(int httpResponseCode)
-        {
+        public void setHttpResponseCode(int httpResponseCode) {
             this.httpResponseCode = httpResponseCode;
         }
 
-        public String getResponseMessage()
-        {
+        public String getResponseMessage() {
             return serverResponseMessage;
         }
 
-        public void setResponseMessage(String responseMessage)
-        {
+        public void setResponseMessage(String responseMessage) {
             this.serverResponseMessage = responseMessage;
         }
 
-        public String toString()
-        {
+        public String toString() {
             return "httpResponseCode = " + httpResponseCode + ", "
-                + "httpResponseMessage = " + httpResponseMessage + ", "
-                + "serverResponseMessage = " + serverResponseMessage;
+                    + "httpResponseMessage = " + httpResponseMessage + ", "
+                    + "serverResponseMessage = " + serverResponseMessage;
         }
     }
 }
