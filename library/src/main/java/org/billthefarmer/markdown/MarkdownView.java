@@ -16,6 +16,7 @@
 
 package org.billthefarmer.markdown;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
@@ -230,6 +231,7 @@ public class MarkdownView extends WebView
     }
 
     // LoadMarkdownUrlTask
+    @SuppressLint("StaticFieldLeak")
     private class LoadMarkdownUrlTask
         extends AsyncTask<String, Integer, String>
     {
