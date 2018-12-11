@@ -29,7 +29,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class Main extends Activity {
+public class Main extends Activity
+{
     public final static String TAG = "Main";
 
     public final static String FILE = "test.md";
@@ -42,7 +43,8 @@ public class Main extends Activity {
 
     // onCreate
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -51,7 +53,8 @@ public class Main extends Activity {
         textView = findViewById(R.id.text);
         ImageButton accept = findViewById(R.id.accept);
 
-        if (markdownView != null) {
+        if (markdownView != null)
+        {
             markdownView.loadMarkdownFile(BASE, TEST, STYLES);
 
             WebSettings settings = markdownView.getSettings();
@@ -59,14 +62,17 @@ public class Main extends Activity {
             settings.setDisplayZoomControls(false);
         }
 
-        if (textView != null) {
+        if (textView != null)
+        {
             String text = readAssetFile();
             textView.setText(text);
         }
 
-        if (accept != null) {
+        if (accept != null)
+        {
             // onClick
-            accept.setOnClickListener(view -> {
+            accept.setOnClickListener(view ->
+            {
                 String text = textView.getText().toString();
                 markdownView.loadMarkdown(BASE, text, STYLES);
             });
@@ -74,23 +80,29 @@ public class Main extends Activity {
     }
 
     // readAssetFile
-    private String readAssetFile() {
-        try {
+    private String readAssetFile()
+    {
+        try
+        {
             // Open asset file
-            try (InputStream input = getResources().getAssets().open(Main.FILE)) {
+            try (InputStream input = getResources().getAssets().open(Main.FILE))
+            {
                 BufferedReader bufferedReader =
-                        new BufferedReader(new InputStreamReader(input));
+                    new BufferedReader(new InputStreamReader(input));
                 StringBuilder content =
-                        new StringBuilder(input.available());
+                    new StringBuilder(input.available());
                 String line;
-                while ((line = bufferedReader.readLine()) != null) {
+                while ((line = bufferedReader.readLine()) != null)
+                {
                     content.append(line);
                     content.append(System.getProperty("line.separator"));
                 }
 
                 return content.toString();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Log.d(TAG, "Error while reading file from assets", e);
             return null;
         }

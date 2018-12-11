@@ -34,22 +34,25 @@ import java.util.Locale;
  * @author Feras Alnatsheh
  */
 // MarkdownView
-public class MarkdownView extends WebView {
+public class MarkdownView extends WebView
+{
     private static final String TAG = "MarkdownView";
 
     private static final String ASSET = "file:///android_asset/";
     private static final String CSS =
-            "<link rel='stylesheet' type='text/css' href='%s' />\n%s";
+        "<link rel='stylesheet' type='text/css' href='%s' />\n%s";
     private static final String JS =
-            "<script type='text/javascript' src='%s'></script>\n%s";
+        "<script type='text/javascript' src='%s'></script>\n%s";
 
     // MarkdownView
-    public MarkdownView(Context context, AttributeSet attrs) {
+    public MarkdownView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
     // MarkdownView
-    public MarkdownView(Context context) {
+    public MarkdownView(Context context)
+    {
         super(context);
     }
 
@@ -68,7 +71,8 @@ public class MarkdownView extends WebView {
      *                   with "file:///android_asset/"
      */
     public void loadMarkdown(String baseUrl, String text,
-                             String cssFileUrl, String jsFileUrl) {
+                             String cssFileUrl, String jsFileUrl)
+    {
         loadMarkdownToView(baseUrl, text, cssFileUrl, jsFileUrl);
     }
 
@@ -82,7 +86,8 @@ public class MarkdownView extends WebView {
      * @param cssFileUrl - a URL to css File. If the file located in the project assets
      *                   folder then the URL should start with "file:///android_asset/"
      */
-    public void loadMarkdown(String baseUrl, String text, String cssFileUrl) {
+    public void loadMarkdown(String baseUrl, String text, String cssFileUrl)
+    {
         loadMarkdown(baseUrl, text, cssFileUrl, null);
     }
 
@@ -95,7 +100,8 @@ public class MarkdownView extends WebView {
      * @param cssFileUrl - a URL to css File. If the file located in the project assets
      *                   folder then the URL should start with "file:///android_asset/"
      */
-    public void loadMarkdown(String text, String cssFileUrl) {
+    public void loadMarkdown(String text, String cssFileUrl)
+    {
         loadMarkdown(null, text, cssFileUrl);
     }
 
@@ -104,7 +110,8 @@ public class MarkdownView extends WebView {
      *
      * @param text - input in Markdown format
      */
-    public void loadMarkdown(String text) {
+    public void loadMarkdown(String text)
+    {
         loadMarkdown(text, null);
     }
 
@@ -125,7 +132,8 @@ public class MarkdownView extends WebView {
      *                   with "file:///android_asset/"
      */
     public void loadMarkdownFile(String baseUrl, String url,
-                                 String cssFileUrl, String jsFileUrl) {
+                                 String cssFileUrl, String jsFileUrl)
+    {
         new LoadMarkdownUrlTask().execute(baseUrl, url, cssFileUrl, jsFileUrl);
     }
 
@@ -142,7 +150,8 @@ public class MarkdownView extends WebView {
      *                   folder then the URL should start with
      *                   "file:///android_asset/"
      */
-    public void loadMarkdownFile(String baseUrl, String url, String cssFileUrl) {
+    public void loadMarkdownFile(String baseUrl, String url, String cssFileUrl)
+    {
         loadMarkdownFile(baseUrl, url, cssFileUrl, null);
     }
 
@@ -158,7 +167,8 @@ public class MarkdownView extends WebView {
      *                   folder then the URL should start with
      *                   "file:///android_asset/"
      */
-    public void loadMarkdownFile(String url, String cssFileUrl) {
+    public void loadMarkdownFile(String url, String cssFileUrl)
+    {
         loadMarkdownFile(null, url, cssFileUrl);
     }
 
@@ -170,25 +180,32 @@ public class MarkdownView extends WebView {
      *            project assets folder then the URL should start with
      *            "file:///android_asset/"
      */
-    public void loadMarkdownFile(String url) {
+    public void loadMarkdownFile(String url)
+    {
         loadMarkdownFile(url, null);
     }
 
     // readFileFromAsset
-    private String readFileFromAsset(String fileName) {
-        try {
-            try (InputStream input = getContext().getAssets().open(fileName)) {
+    private String readFileFromAsset(String fileName)
+    {
+        try
+        {
+            try (InputStream input = getContext().getAssets().open(fileName))
+            {
                 BufferedReader bufferedReader =
-                        new BufferedReader(new InputStreamReader(input));
+                    new BufferedReader(new InputStreamReader(input));
                 StringBuilder content = new StringBuilder(input.available());
                 String line;
-                while ((line = bufferedReader.readLine()) != null) {
+                while ((line = bufferedReader.readLine()) != null)
+                {
                     content.append(line);
                     content.append(System.getProperty("line.separator"));
                 }
                 return content.toString();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Log.e(TAG, "Error while reading file from assets", e);
             return null;
         }
@@ -196,7 +213,8 @@ public class MarkdownView extends WebView {
 
     // loadMarkdownToView
     private void loadMarkdownToView(String baseUrl, String text,
-                                    String cssFileUrl, String jsFileUrl) {
+                                    String cssFileUrl, String jsFileUrl)
+    {
         MarkdownProcessor mark = new MarkdownProcessor();
         String html = mark.markdown(text);
 
@@ -213,34 +231,44 @@ public class MarkdownView extends WebView {
 
     // LoadMarkdownUrlTask
     private class LoadMarkdownUrlTask
-            extends AsyncTask<String, Integer, String> {
+        extends AsyncTask<String, Integer, String>
+    {
         private String baseUrl;
         private String cssFileUrl;
         private String jsFileUrl;
 
         // doInBackground
         @Override
-        protected String doInBackground(String... params) {
-            try {
+        protected String doInBackground(String... params)
+        {
+            try
+            {
                 String markdown;
                 baseUrl = params[0];
                 String url = params[1];
                 cssFileUrl = params[2];
                 jsFileUrl = params[3];
 
-                if (URLUtil.isNetworkUrl(url)) {
+                if (URLUtil.isNetworkUrl(url))
+                {
                     markdown = HttpHelper.get(url).getResponseMessage();
-                } else if (URLUtil.isAssetUrl(url)) {
+                }
+                else if (URLUtil.isAssetUrl(url))
+                {
                     markdown =
-                            readFileFromAsset(url.substring(ASSET.length(),
-                                    url.length()));
-                } else {
+                        readFileFromAsset(url.substring(ASSET.length(),
+                                                        url.length()));
+                }
+                else
+                {
                     throw new IllegalArgumentException
-                            ("The URL provided is not a network or asset URL");
+                    ("The URL provided is not a network or asset URL");
                 }
 
                 return markdown;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Log.e(TAG, "Error Loading Markdown File", e);
                 return null;
             }
@@ -248,16 +276,21 @@ public class MarkdownView extends WebView {
 
         // onProgressUpdate
         @Override
-        protected void onProgressUpdate(Integer... progress) {
+        protected void onProgressUpdate(Integer... progress)
+        {
             // no-op
         }
 
         // onPostExecute
         @Override
-        protected void onPostExecute(String result) {
-            if (result != null) {
+        protected void onPostExecute(String result)
+        {
+            if (result != null)
+            {
                 loadMarkdownToView(baseUrl, result, cssFileUrl, jsFileUrl);
-            } else {
+            }
+            else
+            {
                 loadUrl("about:blank");
             }
         }
