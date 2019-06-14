@@ -40,10 +40,19 @@ public class MarkdownView extends WebView
     private static final String TAG = "MarkdownView";
 
     private static final String ASSET = "file:///android_asset/";
+
+    public final static String HTML_HEAD =
+        "<!DOCTYPE html>\n<html lang='%s'>\n<head>\n" +
+        "<meta charset='utf-8'>\n" +
+        "<meta name='viewport' content='width=device-width, " +
+        "initial-scale=1.0'>\n";
+    public final static String HTML_BODY = "\n</head>\n<body>\n";
+    public final static String HTML_TAIL = "\n</body>\n</html>\n";
+
     private static final String CSS =
-        "<link rel='stylesheet' type='text/css' href='%s' />\n%s";
+        "<link rel='stylesheet' type='text/css' href='%s' />\n";
     private static final String JS =
-        "<script type='text/javascript' src='%s'></script>\n%s";
+        "<script type='text/javascript' src='%s'></script>\n";
 
     // MarkdownView
     public MarkdownView(Context context, AttributeSet attrs)
@@ -217,17 +226,28 @@ public class MarkdownView extends WebView
                                     String cssFileUrl, String jsFileUrl)
     {
         MarkdownProcessor mark = new MarkdownProcessor();
-        String html = mark.markdown(text);
+        Locale locale = Locale.getDefault();
 
-        // Add javascript
-        if (jsFileUrl != null)
-            html = String.format(Locale.getDefault(), JS, jsFileUrl, html);
+        // Header
+        String header = String.format(HTML_HEAD, locale.getLanguage());
+        StringBuilder html = new StringBuilder(header);
 
         // Add styles
         if (cssFileUrl != null)
-            html = String.format(Locale.getDefault(), CSS, cssFileUrl, html);
+            html.append(String.format(CSS, cssFileUrl));
 
-        loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", null);
+        // Add javascript
+        if (jsFileUrl != null)
+            html.append(String.format(JS, jsFileUrl));
+
+        // Markdown
+        html.append(HTML_BODY);
+        html.append(mark.markdown(text));
+        html.append(HTML_TAIL);
+        loadDataWithBaseURL(baseUrl, html.toString(),
+                            "text/html", "UTF-8", null);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, html.toString());
     }
 
     // LoadMarkdownUrlTask

@@ -37,6 +37,7 @@ public class Main extends Activity
     public final static String BASE = "file:///android_asset/";
     public final static String TEST = "file:///android_asset/test.md";
     public final static String STYLES = "file:///android_asset/styles.css";
+    public final static String SCRIPT = "file:///android_asset/script.js";
 
     private MarkdownView markdownView;
     private EditText textView;
@@ -55,7 +56,7 @@ public class Main extends Activity
 
         if (markdownView != null)
         {
-            markdownView.loadMarkdownFile(BASE, TEST, STYLES);
+            markdownView.loadMarkdownFile(BASE, TEST, STYLES, SCRIPT);
 
             WebSettings settings = markdownView.getSettings();
             settings.setBuiltInZoomControls(true);
@@ -74,7 +75,7 @@ public class Main extends Activity
             accept.setOnClickListener(view ->
             {
                 String text = textView.getText().toString();
-                markdownView.loadMarkdown(BASE, text, STYLES);
+                markdownView.loadMarkdown(BASE, text, STYLES, SCRIPT);
             });
         }
     }
