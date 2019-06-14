@@ -246,8 +246,6 @@ public class MarkdownView extends WebView
         html.append(HTML_TAIL);
         loadDataWithBaseURL(baseUrl, html.toString(),
                             "text/html", "UTF-8", null);
-        if (BuildConfig.DEBUG)
-            Log.d(TAG, html.toString());
     }
 
     // LoadMarkdownUrlTask
