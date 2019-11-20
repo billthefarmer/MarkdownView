@@ -23,14 +23,16 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        tools:ignore="Autofill">
 
       <EditText
           android:id="@+id/text"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:gravity="top"
-          android:inputType="textMultiLine" />
+          android:inputType="textMultiLine"
+          tools:ignore="LabelFor" />
 
     </ScrollView>
 

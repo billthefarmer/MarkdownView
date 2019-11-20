@@ -16,7 +16,6 @@
 
 package org.billthefarmer.markdown;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
@@ -29,6 +28,7 @@ import org.markdownj.MarkdownProcessor;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 /**
@@ -144,7 +144,8 @@ public class MarkdownView extends WebView
     public void loadMarkdownFile(String baseUrl, String url,
                                  String cssFileUrl, String jsFileUrl)
     {
-        new LoadMarkdownUrlTask().execute(baseUrl, url, cssFileUrl, jsFileUrl);
+        new LoadMarkdownUrlTask(this).execute(baseUrl, url,
+                                              cssFileUrl, jsFileUrl);
     }
 
     /**
@@ -249,18 +250,28 @@ public class MarkdownView extends WebView
     }
 
     // LoadMarkdownUrlTask
-    @SuppressLint("StaticFieldLeak")
-    private class LoadMarkdownUrlTask
+    private static class LoadMarkdownUrlTask
         extends AsyncTask<String, Integer, String>
     {
+        private WeakReference<MarkdownView> viewWeakReference;
         private String baseUrl;
         private String cssFileUrl;
         private String jsFileUrl;
+
+        // LoadMarkdownUrlTask
+        public LoadMarkdownUrlTask(MarkdownView markdownView)
+        {
+            viewWeakReference = new WeakReference<>(markdownView);
+        }
 
         // doInBackground
         @Override
         protected String doInBackground(String... params)
         {
+            final MarkdownView markdownView = viewWeakReference.get();
+            if (markdownView == null)
+                return null;
+
             try
             {
                 String markdown;
@@ -275,9 +286,9 @@ public class MarkdownView extends WebView
                 }
                 else if (URLUtil.isAssetUrl(url))
                 {
-                    markdown =
-                        readFileFromAsset(url.substring(ASSET.length(),
-                                                        url.length()));
+                    markdown = markdownView
+                        .readFileFromAsset(url.substring(ASSET.length(),
+                                                         url.length()));
                 }
                 else
                 {
@@ -294,24 +305,22 @@ public class MarkdownView extends WebView
             }
         }
 
-        // onProgressUpdate
-        @Override
-        protected void onProgressUpdate(Integer... progress)
-        {
-            // no-op
-        }
-
         // onPostExecute
         @Override
         protected void onPostExecute(String result)
         {
+            final MarkdownView markdownView = viewWeakReference.get();
+            if (markdownView == null)
+                return;
+
             if (result != null)
             {
-                loadMarkdownToView(baseUrl, result, cssFileUrl, jsFileUrl);
+                markdownView.loadMarkdownToView(baseUrl, result,
+                                                cssFileUrl, jsFileUrl);
             }
             else
             {
-                loadUrl("about:blank");
+                markdownView.loadUrl("about:blank");
             }
         }
     }
