@@ -28,7 +28,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.billthefarmer:MarkdownView:v1.01'
+    implementation 'com.github.billthefarmer:MarkdownView:v1.04'
 }
 ```
 
