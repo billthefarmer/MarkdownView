@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '29.0.2'
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "org.billthefarmer.mark"
@@ -18,7 +18,7 @@ android {
     }
 
     lintOptions {
-        disable 'IconDensities'
+        disable 'IconDensities', 'OldTargetApi'
         // abortOnError false
     }
 }

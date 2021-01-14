@@ -23,7 +23,9 @@ import android.util.Log;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 
-import org.markdownj.MarkdownProcessor;
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -228,7 +230,6 @@ public class MarkdownView extends WebView
     private void loadMarkdownToView(String baseUrl, String text,
                                     String cssFileUrl, String jsFileUrl)
     {
-        MarkdownProcessor mark = new MarkdownProcessor();
         Locale locale = Locale.getDefault();
 
         // Header
@@ -243,9 +244,14 @@ public class MarkdownView extends WebView
         if (jsFileUrl != null)
             html.append(String.format(JS, jsFileUrl));
 
+        // Use commonmark
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(text);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+
         // Markdown
         html.append(HTML_BODY);
-        html.append(mark.markdown(text));
+        html.append(renderer.render(document));
         html.append(HTML_TAIL);
         loadDataWithBaseURL(baseUrl, html.toString(),
                             "text/html", "UTF-8", null);

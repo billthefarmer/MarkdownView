@@ -5,7 +5,7 @@ group = 'com.github.billthefarmer'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '29.0.2'
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -18,10 +18,11 @@ android {
     }
 
     lintOptions {
+        disable 'OldTargetApi'
         // abortOnError false
     }
 }
 
 dependencies {
-    implementation 'org.markdownj:markdownj-core:0.4'
+    implementation 'com.atlassian.commonmark:commonmark:0.16.1'
 }
