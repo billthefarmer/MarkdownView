@@ -1,4 +1,4 @@
-# ![Logo](app/src/main/res/drawable-hdpi/ic_launcher.png) MarkdownView [![Build Status](https://travis-ci.org/billthefarmer/MarkdownView.svg?branch=master)](https://travis-ci.org/billthefarmer/MarkdownView) [![](https://jitpack.io/v/billthefarmer/MarkdownView.svg)](https://jitpack.io/#billthefarmer/MarkdownView)
+# ![Logo](app/src/main/res/drawable-hdpi/ic_launcher.png) MarkdownView [![.github/workflows/build.yml](https://github.com/billthefarmer/MarkdownView/workflows/.github/workflows/build.yml/badge.svg)](https://github.com/billthefarmer/MarkdownView/actions) [![](https://jitpack.io/v/billthefarmer/MarkdownView.svg)](https://jitpack.io/#billthefarmer/MarkdownView)
 
 Android markdown view forked from https://github.com/falnatsheh/MarkdownView
 
