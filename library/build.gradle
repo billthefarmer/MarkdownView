@@ -24,5 +24,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.atlassian.commonmark:commonmark:0.16.1'
+    implementation 'org.commonmark:commonmark:0.17.1'
+    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.17.1'
+    implementation 'org.commonmark:commonmark-ext-task-list-items:0.17.1'
 }

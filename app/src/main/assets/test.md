@@ -50,7 +50,20 @@ laborum.
 ![cat](cat.jpg)
 
 ## Code
+```
     proc wobble()
     {
         return false;
     }
+```
+
+## Table
+
+| Syntax | Description |
+| --- | --- |
+| Header | Title |
+| Paragraph | Text |
+
+## Task list
+- [ ] task #1
+- [x] task #2

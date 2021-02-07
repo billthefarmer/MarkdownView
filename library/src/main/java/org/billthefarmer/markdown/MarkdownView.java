@@ -23,14 +23,19 @@ import android.util.Log;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 
+import org.commonmark.Extension;
 import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.commonmark.ext.gfm.tables.TablesExtension;
+import org.commonmark.ext.task.list.items.TaskListItemsExtension;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -245,9 +250,13 @@ public class MarkdownView extends WebView
             html.append(String.format(JS, jsFileUrl));
 
         // Use commonmark
-        Parser parser = Parser.builder().build();
+        List<Extension> extensions =
+            Arrays.asList(TablesExtension.create(),
+                          TaskListItemsExtension.create());
+        Parser parser = Parser.builder().extensions(extensions).build();
         Node document = parser.parse(text);
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder()
+            .extensions(extensions).build();
 
         // Markdown
         html.append(HTML_BODY);
