@@ -11,7 +11,7 @@ text or files (local/remote) as formatted HTML, and style the output
 using CSS.
 
 The MarkdownView itself extends Android WebView and adds the necessary
-logic to parse Markdown (using MarkdownJ) and display the output HTML
+logic to parse Markdown (using Commonmark) and display the output HTML
 on the view.
 
 ## Getting started
