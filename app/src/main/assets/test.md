@@ -58,7 +58,6 @@ laborum.
 ```
 
 ## Table
-
 | Syntax | Description |
 | --- | --- |
 | Header | Title |
