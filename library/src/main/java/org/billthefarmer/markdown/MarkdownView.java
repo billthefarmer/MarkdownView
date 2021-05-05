@@ -27,7 +27,9 @@ import org.commonmark.Extension;
 import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.commonmark.ext.autolink.AutolinkExtension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
+import org.commonmark.ext.front.matter.YamlFrontMatterExtension;
 import org.commonmark.ext.task.list.items.TaskListItemsExtension;
 
 import java.io.BufferedReader;
@@ -252,7 +254,9 @@ public class MarkdownView extends WebView
         // Use commonmark
         List<Extension> extensions =
             Arrays.asList(TablesExtension.create(),
-                          TaskListItemsExtension.create());
+                          AutolinkExtension.create(),
+                          TaskListItemsExtension.create(),
+                          YamlFrontMatterExtension.create());
         Parser parser = Parser.builder().extensions(extensions).build();
         Node document = parser.parse(text);
         HtmlRenderer renderer = HtmlRenderer.builder()

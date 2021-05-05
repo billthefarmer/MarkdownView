@@ -1,3 +1,18 @@
+---
+name: test.md
+contents:
+    - Headers
+    - Paragraph
+    - Quote
+    - Lists
+    - Links
+    - Image
+    - Table
+    - Task List
+purpose: |
+    Demonstrate use of markdown and test
+    CommonMark markdown parser
+---
 # Markdown
 ---
 # Header 1
@@ -43,8 +58,10 @@ laborum.
 1. One item
 2. Two items
 
-## Link
+## Links
 [MarkdownView](https://github.com/billthefarmer/MarkdownView)
+
+https://github.com/billthefarmer/MarkdownView Mark@DownView.org
 
 ## Image
 ![cat](cat.jpg)
