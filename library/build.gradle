@@ -17,15 +17,15 @@ android {
     }
 
     lintOptions {
-        disable 'OldTargetApi'
+        disable 'OldTargetApi', 'ExpiredTargetSdkVersion'
         // abortOnError false
     }
 }
 
 dependencies {
-    implementation 'org.commonmark:commonmark:0.17.1'
-    implementation 'org.commonmark:commonmark-ext-autolink:0.17.1'
-    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.17.1'
-    implementation 'org.commonmark:commonmark-ext-task-list-items:0.17.1'
-    implementation 'org.commonmark:commonmark-ext-yaml-front-matter:0.17.1'
+    implementation 'org.commonmark:commonmark:0.17.2'
+    implementation 'org.commonmark:commonmark-ext-autolink:0.17.2'
+    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.17.2'
+    implementation 'org.commonmark:commonmark-ext-task-list-items:0.17.2'
+    implementation 'org.commonmark:commonmark-ext-yaml-front-matter:0.17.2'
 }

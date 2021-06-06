@@ -17,7 +17,7 @@ android {
     }
 
     lintOptions {
-        disable 'IconDensities', 'OldTargetApi'
+        disable 'IconDensities', 'OldTargetApi', 'ExpiredTargetSdkVersion'
         // abortOnError false
     }
 }
