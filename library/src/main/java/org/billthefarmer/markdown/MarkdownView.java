@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 
@@ -73,6 +74,14 @@ public class MarkdownView extends WebView
     public MarkdownView(Context context)
     {
         super(context);
+    }
+
+    // onKeyDown
+    @Override
+    public boolean onKeyDown (int keyCode, KeyEvent event)
+    {
+        // Don't handle it
+        return false;
     }
 
     /**
