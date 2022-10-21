@@ -2,13 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    namespace "org.billthefarmer.mark"
 
     defaultConfig {
         applicationId "org.billthefarmer.mark"
         minSdkVersion 14
         targetSdkVersion 28
-        versionName "1.09"
-        versionCode 109
+        versionName "1.10"
+        versionCode 110
     }
 
     compileOptions {

@@ -1,14 +1,20 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 
 group = 'com.github.billthefarmer'
 
 android {
     compileSdkVersion 28
+    namespace "org.billthefarmer.markdown"
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
+        versionCode 110
+        versionName "1.10"
     }
 
     compileOptions {
@@ -22,10 +28,32 @@ android {
     }
 }
 
+afterEvaluate {
+    // Because the components are created only during the
+    // afterEvaluate phase, you must configure your publications using
+    // the afterEvaluate() lifecycle method.
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                // You can then customize attributes of the
+                // publication as shown below.
+                groupId = 'com.github.billthefarmer'
+                artifactId = 'MarkdownView'
+                version = '1.10'
+            }
+        }
+    }
+}
+
 dependencies {
-    implementation 'org.commonmark:commonmark:0.18.0'
-    implementation 'org.commonmark:commonmark-ext-autolink:0.18.0'
-    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.18.0'
-    implementation 'org.commonmark:commonmark-ext-task-list-items:0.18.0'
-    implementation 'org.commonmark:commonmark-ext-yaml-front-matter:0.18.0'
+    implementation 'org.commonmark:commonmark:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-ins:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-autolink:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-heading-anchor:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-task-list-items:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-gfm-strikethrough:0.20.0'
+    implementation 'org.commonmark:commonmark-ext-yaml-front-matter:0.20.0'
 }
