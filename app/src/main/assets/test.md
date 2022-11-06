@@ -83,3 +83,9 @@ https://github.com/billthefarmer/MarkdownView Mark@DownView.org
 ## Task list
 - [ ] task #1
 - [x] task #2
+
+## Underscore, Strikethrough
+++underscore++ ~~strikethrough~~
+
+## Superscript, Subscript
+^superscript^ ~subscript~ &nbsp; 2^2^/~3~

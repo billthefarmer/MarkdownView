@@ -25,16 +25,18 @@ import android.webkit.URLUtil;
 import android.webkit.WebView;
 
 import org.commonmark.Extension;
-import org.commonmark.node.*;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 import org.commonmark.ext.autolink.AutolinkExtension;
 import org.commonmark.ext.front.matter.YamlFrontMatterExtension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.ext.heading.anchor.HeadingAnchorExtension;
 import org.commonmark.ext.ins.InsExtension;
+import org.commonmark.ext.sub.SubExtension;
+import org.commonmark.ext.sup.SupExtension;
 import org.commonmark.ext.task.list.items.TaskListItemsExtension;
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -258,6 +260,8 @@ public class MarkdownView extends WebView
         // Use commonmark
         List<Extension> extensions =
             Arrays.asList(InsExtension.create(),
+                          SubExtension.create(),
+                          SupExtension.create(),
                           TablesExtension.create(),
                           AutolinkExtension.create(),
                           HeadingAnchorExtension.create(),
