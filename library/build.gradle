@@ -28,7 +28,7 @@ android {
     }
 
     lintOptions {
-        disable 'OldTargetApi'
+        disable 'OldTargetApi', 'GradleDependency'
         // abortOnError false
     }
 }
