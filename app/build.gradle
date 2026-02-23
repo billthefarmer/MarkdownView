@@ -1,24 +1,24 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 35
     namespace "org.billthefarmer.mark"
 
     defaultConfig {
         applicationId "org.billthefarmer.mark"
-        minSdkVersion 14
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 35
         versionName "1.11"
         versionCode 111
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_9
+        targetCompatibility JavaVersion.VERSION_1_9
     }
 
     lintOptions {
-        disable 'IconDensities', 'OldTargetApi', 'ExpiredTargetSdkVersion'
+        disable 'AndroidGradlePluginVersion', 'GradleDependency', 'OldTargetApi'
         // abortOnError false
     }
 }

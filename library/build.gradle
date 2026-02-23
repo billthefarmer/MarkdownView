@@ -7,23 +7,28 @@ plugins {
 group = 'com.github.billthefarmer'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 35
     namespace "org.billthefarmer.markdown"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode 110
         versionName "1.10"
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_9
+        targetCompatibility JavaVersion.VERSION_1_9
+    }
+
+    publishing {
+        singleVariant("release") {
+        }
     }
 
     lintOptions {
-        disable 'OldTargetApi', 'ExpiredTargetSdkVersion'
+        disable 'OldTargetApi'
         // abortOnError false
     }
 }
@@ -48,12 +53,12 @@ afterEvaluate {
 }
 
 dependencies {
-    implementation 'org.commonmark:commonmark:0.20.0'
-    implementation 'org.commonmark:commonmark-ext-ins:0.20.0'
-    implementation 'org.commonmark:commonmark-ext-autolink:0.20.0'
-    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.20.0'
-    implementation 'org.commonmark:commonmark-ext-heading-anchor:0.20.0'
-    implementation 'org.commonmark:commonmark-ext-task-list-items:0.20.0'
-    implementation 'org.commonmark:commonmark-ext-gfm-strikethrough:0.19.0'
-    implementation 'org.commonmark:commonmark-ext-yaml-front-matter:0.20.0'
+    implementation 'org.commonmark:commonmark:0.27.1'
+    implementation 'org.commonmark:commonmark-ext-ins:0.27.1'
+    implementation 'org.commonmark:commonmark-ext-autolink:0.27.1'
+    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.27.1'
+    implementation 'org.commonmark:commonmark-ext-heading-anchor:0.27.1'
+    implementation 'org.commonmark:commonmark-ext-task-list-items:0.27.1'
+    implementation 'org.commonmark:commonmark-ext-gfm-strikethrough:0.27.1'
+    implementation 'org.commonmark:commonmark-ext-yaml-front-matter:0.27.1'
 }

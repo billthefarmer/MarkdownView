@@ -17,7 +17,6 @@
 package org.billthefarmer.markdown;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -34,17 +33,19 @@ import org.commonmark.ext.ins.InsExtension;
 import org.commonmark.ext.sub.SubExtension;
 import org.commonmark.ext.sup.SupExtension;
 import org.commonmark.ext.task.list.items.TaskListItemsExtension;
-import org.commonmark.node.*;
+import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 
 /**
  * @author Feras Alnatsheh
@@ -68,6 +69,8 @@ public class MarkdownView extends WebView
         "<link rel='stylesheet' type='text/css' href='%s' />\n";
     private static final String JS =
         "<script type='text/javascript' src='%s'></script>\n";
+
+    private ExecutorService executor;
 
     // MarkdownView
     public MarkdownView(Context context, AttributeSet attrs)
@@ -161,8 +164,7 @@ public class MarkdownView extends WebView
     public void loadMarkdownFile(String baseUrl, String url,
                                  String cssFileUrl, String jsFileUrl)
     {
-        new LoadMarkdownUrlTask(this).execute(baseUrl, url,
-                                              cssFileUrl, jsFileUrl);
+        loadMarkdownUrl(baseUrl, url, cssFileUrl, jsFileUrl);
     }
 
     /**
@@ -265,7 +267,8 @@ public class MarkdownView extends WebView
                           TablesExtension.create(),
                           AutolinkExtension.create(),
                           HeadingAnchorExtension.create(),
-                          StrikethroughExtension.create(),
+                          StrikethroughExtension.builder()
+                          .requireTwoTildes(true).build(),
                           TaskListItemsExtension.create(),
                           YamlFrontMatterExtension.create());
         Parser parser = Parser.builder().extensions(extensions).build();
@@ -281,79 +284,44 @@ public class MarkdownView extends WebView
                             "text/html", "UTF-8", null);
     }
 
-    // LoadMarkdownUrlTask
-    private static class LoadMarkdownUrlTask
-        extends AsyncTask<String, Integer, String>
+    // loadMarkdownUrl
+    private void loadMarkdownUrl(String baseUrl, String url,
+                                 String cssFileUrl, String jsFileUrl)
     {
-        private WeakReference<MarkdownView> viewWeakReference;
-        private String baseUrl;
-        private String cssFileUrl;
-        private String jsFileUrl;
+        if (executor == null)
+            executor = Executors.newSingleThreadExecutor();
 
-        // LoadMarkdownUrlTask
-        public LoadMarkdownUrlTask(MarkdownView markdownView)
+        executor.execute(() ->
         {
-            viewWeakReference = new WeakReference<>(markdownView);
-        }
-
-        // doInBackground
-        @Override
-        protected String doInBackground(String... params)
-        {
-            final MarkdownView markdownView = viewWeakReference.get();
-            if (markdownView == null)
-                return null;
+            String markdown = null;
 
             try
             {
-                String markdown;
-                baseUrl = params[0];
-                String url = params[1];
-                cssFileUrl = params[2];
-                jsFileUrl = params[3];
-
                 if (URLUtil.isNetworkUrl(url))
-                {
                     markdown = HttpHelper.get(url).getResponseMessage();
-                }
-                else if (URLUtil.isAssetUrl(url))
-                {
-                    markdown = markdownView
-                        .readFileFromAsset(url.substring(ASSET.length(),
-                                                         url.length()));
-                }
-                else
-                {
-                    throw new IllegalArgumentException
-                    ("The URL provided is not a network or asset URL");
-                }
 
-                return markdown;
+                else if (URLUtil.isAssetUrl(url))
+                    markdown =  readFileFromAsset(url.substring(ASSET.length(),
+                                                                url.length()));
+                else
+                    throw new IllegalArgumentException
+                        ("The URL provided is not a network or asset URL");
             }
+
             catch (Exception e)
             {
                 Log.e(TAG, "Error Loading Markdown File", e);
-                return null;
             }
-        }
 
-        // onPostExecute
-        @Override
-        protected void onPostExecute(String result)
-        {
-            final MarkdownView markdownView = viewWeakReference.get();
-            if (markdownView == null)
-                return;
-
-            if (result != null)
+            String result = markdown;
+            post(() ->
             {
-                markdownView.loadMarkdownToView(baseUrl, result,
-                                                cssFileUrl, jsFileUrl);
-            }
-            else
-            {
-                markdownView.loadUrl("about:blank");
-            }
-        }
+                if (result != null)
+                    loadMarkdownToView(baseUrl, result,
+                                       cssFileUrl, jsFileUrl);
+                else
+                    loadUrl("about:blank");
+            });
+        });
     }
 }
