@@ -21,7 +21,7 @@ jobs:
           sha256sum library/build/outputs/aar/library-release.aar
           sha256sum app/build/outputs/apk/debug/app-debug.apk
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: library-release.aar
           path: library/build/outputs/aar/library-release.aar
